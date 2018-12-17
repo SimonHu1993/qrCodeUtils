@@ -1,15 +1,12 @@
 package com.zhx.base.util.qrcode.base;
 
-import com.sun.org.apache.xml.internal.security.exceptions.Base64DecodingException;
-import com.sun.org.apache.xml.internal.security.utils.Base64;
-import sun.misc.BASE64Encoder;
+import org.apache.commons.codec.binary.Base64;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 
 
 /**
@@ -25,8 +22,7 @@ public class Base64Util {
 
     public static String encode(ByteArrayOutputStream outputStream) {
         byte[] lens = outputStream.toByteArray();
-        BASE64Encoder base64Encoder = new BASE64Encoder();
-        String result  = base64Encoder.encode(lens);
+        String result  = Base64.encodeBase64String(lens);
         //jdk1.8写法
         //return Base64.getEncoder().encodeToString(outputStream.toByteArray());
         return result;
@@ -36,8 +32,8 @@ public class Base64Util {
     public static BufferedImage decode2Img(String base64) throws IOException {
         byte[] bytes = new byte[0];
         try {
-            bytes = Base64.decode(base64);
-        } catch (Base64DecodingException e) {
+            bytes = Base64.decodeBase64(base64);
+        } catch (Exception e) {
             e.printStackTrace();
         }
         //jdk1.8写法

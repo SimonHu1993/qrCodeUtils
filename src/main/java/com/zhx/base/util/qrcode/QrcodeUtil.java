@@ -6,8 +6,7 @@ import com.google.zxing.EncodeHintType;
 import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
-import com.sun.org.apache.xml.internal.security.utils.Base64;
-import sun.misc.BASE64Encoder;
+import org.apache.commons.codec.binary.Base64;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -79,8 +78,7 @@ public class QrcodeUtil {
         try {
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
             ImageIO.write(bufferedImage, "jpeg", outputStream);
-            BASE64Encoder encoder = new BASE64Encoder();
-            imgBase64 = encoder.encode(outputStream.toByteArray()).trim().replaceAll("\\s", "").replaceAll("\r", "").replaceAll("\n", "");
+            imgBase64 = Base64.encodeBase64String(outputStream.toByteArray()).trim().replaceAll("\\s", "").replaceAll("\r", "").replaceAll("\n", "");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -141,7 +139,7 @@ public class QrcodeUtil {
         BufferedOutputStream bos = null;
         FileOutputStream fos = null;
         try {
-            byte[] bytes = Base64.decode(base64);
+            byte[] bytes = Base64.decodeBase64(base64);
             file=new File(filePath+File.separator+fileName);
             fos = new FileOutputStream(file);
             bos = new BufferedOutputStream(fos);
